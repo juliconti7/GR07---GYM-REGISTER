@@ -10,6 +10,11 @@ def borrarMiembro(nombre):
     return inscriptos
 
 
+def validarNombre(nombre, apellido):
+    if nombre.isalpha() and apellido.isalpha():
+        return True
+    else:
+        return False
 inscriptos = []
 
 
@@ -28,10 +33,14 @@ while opcion != 4:
     elif opcion == 2:
         nombre = input("Insgrese su nombre: ")
         apellido = input("Ingrese su apellido: ")
+        estado = validarNombre(nombre, apellido)
         ahora = datetime.now()
         fecha_formateada = ahora.strftime("%d-%m-%Y")
-        inscriptos.append([nombre, apellido, fecha_formateada])
-        print(inscriptos)
+        if estado == False:
+            print("Nombre o appelido invalido, ingrese solo letras")
+        else:
+            inscriptos.append([nombre, apellido, fecha_formateada])
+            print(inscriptos)
     elif opcion == 3:
         nombreBorrar = input("Ingrese el nombre del miembro a borrar: ")
         borrarMiembro(nombreBorrar)
