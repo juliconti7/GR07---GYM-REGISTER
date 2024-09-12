@@ -7,7 +7,6 @@ def main():
     print(".1 Registrarse")
     print(".2 Lista de miembros")
     print(".3 Borrar miembro")
-    print(".4 Consultar suscripcion")
     print(".0 Salir")
 
     opcion= int(input("introduce una opcion: "))
@@ -21,11 +20,6 @@ def main():
         elif opcion == 3:
             dniBorrar = input("Ingrese el DNI del miembro a borrar: ")
             borrarMiembro(dniBorrar, usuarios)
-        elif opcion == 4:
-            dniConsultar = input("Ingrese el DNI del miembro a consultar: ")
-            fechaConsulta = input("Ingrese la fecha actual (dd-mm-aaaa): ")
-            consultarSuscripcion(dniConsultar, fechaConsulta, usuarios)
-        
         
         opcion= int(input("introduce una opcion: "))
     print("Hasta luego")

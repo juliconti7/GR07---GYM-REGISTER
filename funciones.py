@@ -36,17 +36,3 @@ def registrarse(lista):
         lista.append([nombreCompleto, dni, fecha.strftime("%d-%m-%Y")])
     else:
         print("Nombre o DNI invalido")
-
-def consultarSuscripcion(dni, fecha, lista):
-    for i in lista:
-        if i[1] == dni:
-            fechaMiembro = datetime.strptime(i[2], "%d-%m-%Y")
-            if fechaMiembro.year == int(fecha[6:]):
-                if fechaMiembro.month == int(fecha[3:5]):
-                    if fechaMiembro.day == int(fecha[:2]):
-                        print("El miembro tiene suscripcion activa")
-                        return
-            print("El miembro no tiene suscripcion activa")
-            return
-    print("Miembro no encontrado")
-    return
