@@ -4,44 +4,53 @@ import json
 def registrarUsuario():
     nombre = input("Ingresa el nombre: ")
     apellido = input("Ingresa el apellido: ")
-    dni = input("Ingresa el DNI: ")
+    dni = int(input("Ingresa el DNI: "))
     fecha_actual = datetime.now().strftime("%Y-%m-%d")
+    validarDni = lambda dni: len(str(dni)) == 8
+    if validarDni(dni):
+        # ABRIMOS EL ARCHIVO JSON
+        try:
+            with open('usuarios.json', 'r') as archivo:
+                usuarioDiccionario = json.load(archivo)
+        except FileNotFoundError:
+            usuarioDiccionario = []
 
-    # Creamos diccionario usuario
-    usuario = {
-        "nombre": nombre,
-        "apellido": apellido,
-        "dni": dni,
-        "fecha_registro": fecha_actual
-    }
+        # si el dni ya esta en nuestra lista de usuarios, no lo registramos
+        for usuario in usuarioDiccionario:
+            if usuario["dni"] == dni:
+                print("El DNI ya está registrado.")
+                return
 
-    # ABRIMOS EL ARCHIVO JSON
-    try:
-        with open('usuarios.json', 'r') as archivo:
-            usuarioDiccionario = json.load(archivo)
-    except FileNotFoundError:
-        usuarioDiccionario = []
+        # Creamos diccionario usuario
+        usuario = {
+            "nombre": nombre,
+            "apellido": apellido,
+            "dni": dni,
+            "fecha_registro": fecha_actual
+        }
 
-    # lo metemos al json
-    usuarioDiccionario.append(usuario)
+        # lo metemos al json
+        usuarioDiccionario.append(usuario)
 
-    # Guardar los datos 
-    with open('usuarios.json', 'w') as archivo:
-        json.dump(usuarioDiccionario, archivo, indent=4)
+        # Guardar los datos 
+        with open('usuarios.json', 'w') as archivo:
+            json.dump(usuarioDiccionario, archivo, indent=4)
 
-    print("Usuario registrado con éxito.")
+        print("Usuario registrado con éxito.")
+    else: 
+        print("DNI inválido, debe tener 8 dígitos.")
 
 def borrarMiembro():
     dni = input("Ingresa el DNI del miembro a borrar: ")
 
-    # ABRIMOS EL ARCHIVO JSON
+    # ABRIMOS EL ARCHIVO JSON igual que antes
     try:
         with open('usuarios.json', 'r') as archivo:
             usuarioDiccionario = json.load(archivo)
     except FileNotFoundError:
         usuarioDiccionario = []
 
-    # Buscamos el usuario
+    # Buscamos el usuario por su dni y si lo encontramos lo borramos
     for usuario in usuarioDiccionario:
         if usuario["dni"] == dni:
             usuarioDiccionario.remove(usuario)
