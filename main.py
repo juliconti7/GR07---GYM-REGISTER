@@ -79,11 +79,37 @@ def listarMiembros():
         print("Fecha de registro: ", usuario["fecha_registro"])
         print("")
 
+def buscarMiembro():
+    dni = int(input("Ingresa el DNI del miembro a buscar: "))
+
+    # ABRIMOS EL ARCHIVO JSON igual que antes
+    try:
+        with open('usuarios.json', 'r') as archivo:
+            usuarioDiccionario = json.load(archivo)
+    except FileNotFoundError:
+        usuarioDiccionario = []
+
+    # Buscamos el usuario por su dni igual que antes, si lo encontramos lo mostramos
+    for usuario in usuarioDiccionario:
+        if usuario["dni"] == dni:
+            print("Nombre: ", usuario["nombre"])
+            print("Apellido: ", usuario["apellido"])
+            print("DNI: ", usuario["dni"])
+            print("Fecha de registro: ", usuario["fecha_registro"])
+            break
+    else:
+        print("Usuario no encontrado.")
+
+    # Guardar los datos 
+    with open('usuarios.json', 'w') as archivo:
+        json.dump(usuarioDiccionario, archivo, indent=4)
+
 def main():
     print("Bienvenido al sistema de registro de miembros")
     print(".1 Registrarse")
     print(".2 Lista de miembros")
     print(".3 Borrar miembro")
+    print(".4 Buscar miembro")
     print(".0 Salir")
     
     opcion= int(input("introduce una opcion: "))
@@ -94,6 +120,8 @@ def main():
             listarMiembros()
         elif opcion == 3:
             borrarMiembro()
+        elif opcion == 4:
+            buscarMiembro()
         
         opcion= int(input("introduce una opcion: "))
     print("Hasta luego")
