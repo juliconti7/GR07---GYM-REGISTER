@@ -41,7 +41,7 @@ def registrarUsuario():
         print("DNI inválido, debe tener 8 dígitos.")
 
 def borrarMiembro():
-    dni = input("Ingresa el DNI del miembro a borrar: ")
+    dni = int(input("Ingresa el DNI del miembro a borrar: "))
 
     # ABRIMOS EL ARCHIVO JSON igual que antes
     try:
