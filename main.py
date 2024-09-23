@@ -5,7 +5,7 @@ def registrarUsuario():
     nombre = input("Ingresa el nombre: ")
     apellido = input("Ingresa el apellido: ")
     dni = int(input("Ingresa el DNI: "))
-    fecha_actual = datetime.now().strftime("%Y-%m-%d")
+    fecha_actual = datetime.now().strftime("%d-%m-%Y")
     validarDni = lambda dni: len(str(dni)) == 8
     if validarDni(dni):
         # ABRIMOS EL ARCHIVO JSON
@@ -42,26 +42,29 @@ def registrarUsuario():
 
 def borrarMiembro():
     dni = int(input("Ingresa el DNI del miembro a borrar: "))
+    validarDni = lambda dni: len(str(dni)) == 8
+    if validarDni(dni):
+        # ABRIMOS EL ARCHIVO JSON igual que antes
+        try:
+            with open('usuarios.json', 'r') as archivo:
+                usuarioDiccionario = json.load(archivo)
+        except FileNotFoundError:
+            usuarioDiccionario = []
 
-    # ABRIMOS EL ARCHIVO JSON igual que antes
-    try:
-        with open('usuarios.json', 'r') as archivo:
-            usuarioDiccionario = json.load(archivo)
-    except FileNotFoundError:
-        usuarioDiccionario = []
+        # Buscamos el usuario por su dni y si lo encontramos lo borramos
+        for usuario in usuarioDiccionario:
+            if usuario["dni"] == dni:
+                usuarioDiccionario.remove(usuario)
+                print("Usuario eliminado con éxito.")
+                break
+        else:
+            print("Usuario no encontrado.")
 
-    # Buscamos el usuario por su dni y si lo encontramos lo borramos
-    for usuario in usuarioDiccionario:
-        if usuario["dni"] == dni:
-            usuarioDiccionario.remove(usuario)
-            print("Usuario eliminado con éxito.")
-            break
+        # Guardar los datos 
+        with open('usuarios.json', 'w') as archivo:
+            json.dump(usuarioDiccionario, archivo, indent=4)
     else:
-        print("Usuario no encontrado.")
-
-    # Guardar los datos 
-    with open('usuarios.json', 'w') as archivo:
-        json.dump(usuarioDiccionario, archivo, indent=4)
+        print("DNI inválido, debe tener 8 dígitos.")
 
 def listarMiembros():
     # ABRIMOS EL ARCHIVO JSON
@@ -81,28 +84,32 @@ def listarMiembros():
 
 def buscarMiembro():
     dni = int(input("Ingresa el DNI del miembro a buscar: "))
+    validarDni = lambda dni: len(str(dni)) == 8
+    validarDni(dni)
+    if validarDni(dni):
+        # ABRIMOS EL ARCHIVO JSON igual que antes
+        try:
+            with open('usuarios.json', 'r') as archivo:
+                usuarioDiccionario = json.load(archivo)
+        except FileNotFoundError:
+            usuarioDiccionario = []
 
-    # ABRIMOS EL ARCHIVO JSON igual que antes
-    try:
-        with open('usuarios.json', 'r') as archivo:
-            usuarioDiccionario = json.load(archivo)
-    except FileNotFoundError:
-        usuarioDiccionario = []
+        # Buscamos el usuario por su dni igual que antes, si lo encontramos lo mostramos
+        for usuario in usuarioDiccionario:
+            if usuario["dni"] == dni:
+                print("Nombre: ", usuario["nombre"])
+                print("Apellido: ", usuario["apellido"])
+                print("DNI: ", usuario["dni"])
+                print("Fecha de registro: ", usuario["fecha_registro"])
+                break
+        else:
+            print("Usuario no encontrado.")
 
-    # Buscamos el usuario por su dni igual que antes, si lo encontramos lo mostramos
-    for usuario in usuarioDiccionario:
-        if usuario["dni"] == dni:
-            print("Nombre: ", usuario["nombre"])
-            print("Apellido: ", usuario["apellido"])
-            print("DNI: ", usuario["dni"])
-            print("Fecha de registro: ", usuario["fecha_registro"])
-            break
+        # Guardar los datos 
+        with open('usuarios.json', 'w') as archivo:
+            json.dump(usuarioDiccionario, archivo, indent=4)
     else:
-        print("Usuario no encontrado.")
-
-    # Guardar los datos 
-    with open('usuarios.json', 'w') as archivo:
-        json.dump(usuarioDiccionario, archivo, indent=4)
+        print("DNI inválido, debe tener 8 dígitos.")
 
 def main():
     print("Bienvenido al sistema de registro de miembros")
@@ -122,7 +129,8 @@ def main():
             borrarMiembro()
         elif opcion == 4:
             buscarMiembro()
-        
+        else:
+            print("Selecciona una opción correcta")
         opcion= int(input("introduce una opcion: "))
     print("Hasta luego")
 
