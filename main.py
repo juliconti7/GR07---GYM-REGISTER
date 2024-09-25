@@ -3,7 +3,14 @@ import json
 
 def registrarUsuario():
     nombre = input("Ingresa el nombre: ")
+    validarTexto = lambda nombre: nombre.isalpha()
+    if validarTexto(nombre) == False:
+        print("Nombre inválido, debe contener solo letras.")
+        return
     apellido = input("Ingresa el apellido: ")
+    if validarTexto(apellido) == False:
+        print("Apellido inválido, debe contener solo letras.")
+        return
     dni = int(input("Ingresa el DNI: "))
     fecha_actual = datetime.now().strftime("%d-%m-%Y")
     validarDni = lambda dni: len(str(dni)) == 8
