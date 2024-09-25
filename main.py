@@ -112,15 +112,18 @@ def buscarMiembro():
         print("DNI inválido, debe tener 8 dígitos.")
 
 def main():
-    print("Bienvenido al sistema de registro de miembros")
-    print(".1 Registrarse")
-    print(".2 Lista de miembros")
-    print(".3 Borrar miembro")
-    print(".4 Buscar miembro")
-    print(".0 Salir")
-    
-    opcion= int(input("introduce una opcion: "))
+    print("\nBienvenido al sistema de registro de miembros")
+    opcion = -1 
     while opcion != 0:
+        print("\nElige una opción")
+        print("1. Registrarse")
+        print("2. Lista de miembros")
+        print("3. Borrar miembro")
+        print("4. Buscar miembro")
+        print("0. Salir")
+
+        opcion = int(input("Introduce una opción: "))
+        
         if opcion == 1:
             registrarUsuario()
         elif opcion == 2:
@@ -129,10 +132,9 @@ def main():
             borrarMiembro()
         elif opcion == 4:
             buscarMiembro()
+        elif opcion == 0:
+            print("Hasta luego")
         else:
             print("Selecciona una opción correcta")
-        opcion= int(input("introduce una opcion: "))
-    print("Hasta luego")
-
 
 main()
